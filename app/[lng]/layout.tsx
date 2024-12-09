@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { ThemeProvider } from "next-themes";
 
 import "./globals.css";
 import { setCookie } from "@/common/helper/cookies";
+import ThemeProvider from "@/providers/themeProvider";
+import { dir } from "i18next";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -23,8 +24,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { lng },
 }: Readonly<{
   children: React.ReactNode;
+  params: { lng: string };
 }>) {
   if (typeof window !== "undefined")
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
@@ -33,15 +36,13 @@ export default function RootLayout({
     });
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lng} dir={dir(lng)}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider defaultTheme="light" themes={["light", "dark"]}>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

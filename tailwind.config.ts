@@ -13,5 +13,7 @@ export default {
         foreground: "var(--foreground)",
       },
     },
+    darkMode: ["selector", '[data-mode="dark"]'],
+    plugins: [],
   },
 } satisfies Config;

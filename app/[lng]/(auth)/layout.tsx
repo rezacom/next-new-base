@@ -12,46 +12,60 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { AuthLayoutProps } from "./utils/types";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 const ThemeButton = dynamic(() => import("@/components/themeButton"), {
   ssr: false,
 });
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   //   const { replace } = useRouter();
+  const { theme } = useTheme();
+
+  console.log(theme);
 
   return (
-    <div className="main-container min-h-screen text-black dark:text-white-dark">
+    <div
+      className={clsx("main-container min-h-screen relative text-black", theme === "dark" && "dark:text-white-dark")}
+    >
       {/* <!-- start main content section --> */}
       <div x-data="auth">
         <div className="absolute inset-0">
           <Image src={bgGradient.src} width={1000} height={1000} alt="image" className="h-full w-full object-cover" />
         </div>
         <div
-          className={`relative flex min-h-screen items-center justify-center bg-cover bg-center bg-no-repeat px-6 py-10 light:bg-[#fff] dark:bg-[#060818] sm:px-16`}
+          className={clsx(
+            `relative flex min-h-screen items-center justify-center bg-cover bg-center bg-no-repeat px-6 py-10 sm:px-16`,
+            theme === "light" ? "light:bg-[#fff]" : "dark:bg-[#060818]"
+          )}
         >
           <Image
             src={comingSoonObject1.src}
             alt="image"
-            width={100}
-            height={100}
+            width={300}
+            height={400}
             className="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2"
           />
           <Image
-            width={100}
-            height={100}
+            width={200}
+            height={160}
             src={comingSoonObject2.src}
             alt="image"
             className="absolute left-24 top-0 h-40 md:left-[30%]"
           />
           <Image
-            width={100}
-            height={100}
+            width={400}
+            height={400}
             src={comingSoonObject3.src}
             alt="image"
             className="absolute right-0 top-0 h-[300px]"
           />
-          <Image width={100} height={100} src={polygonObject.src} alt="image" className="absolute bottom-0 end-[28%]" />
-          <div className="relative flex w-full max-w-[1502px] flex-col justify-between overflow-hidden rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 lg:min-h-[758px] lg:flex-row lg:gap-10 xl:gap-0">
+          <Image width={200} height={200} src={polygonObject.src} alt="image" className="absolute bottom-0 end-[28%]" />
+          <div
+            className={clsx(
+              "relative flex w-full max-w-[1502px] flex-col justify-between overflow-hidden rounded-md backdrop-blur-lg lg:min-h-[758px] lg:flex-row lg:gap-10 xl:gap-0",
+              theme === "light" ? "bg-white/60" : "dark:bg-black/50"
+            )}
+          >
             <div
               className={clsx(
                 "relative hidden w-full items-center justify-center p-5 lg:inline-flex lg:max-w-[835px] xl:-ms-32 ltr:xl:skew-x-[14deg] rtl:xl:skew-x-[-14deg]"
